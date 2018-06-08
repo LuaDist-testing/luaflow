@@ -14,13 +14,14 @@ How to use
       -a, --ast             dump AST
       -d, --dot             generate call graph dot file (GraphViz format)
       -e, --exclude         exclude this list of comma separated functions
+      -g, --graph           generate call graph file (png format)
       -m, --main            main/entry function
       -h, --help            show this help message
 
 
 **Get a call tree**
 
-    $ luaflow luaflow_lib
+    $ luaflow luaflow_lib.lua
 
 **Get a call graph (requires GraphViz)**
 

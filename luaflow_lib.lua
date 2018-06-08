@@ -14,6 +14,8 @@ local encode = cjson.encode
 local GLOBAL = '_G'
 
 
+local link_added = {}
+
 function _M.create_ctx()
     return {
         roots = {},
@@ -254,8 +256,12 @@ local function get_dot_flow(ctx, t, caller, conf)
         local v = ctx.call[caller]
         for _, callee in ipairs(v) do
             if not is_exclude(conf, callee) then
-                insert(t, format("%s -> %s;\n", dot_escape_name(caller),
-                       dot_escape_name(callee)))
+                local link = format("%s -> %s;\n", dot_escape_name(caller),
+                       dot_escape_name(callee))
+                if not link_added[link] then
+                    insert(t, link)
+                    link_added[link] = true
+                end
             end
         end
     end
@@ -276,7 +282,7 @@ local function get_roots(ctx, func, t)
     t[func] = true
 end
 
-function _M.print_root_dot_flow(ctx, conf)
+function _M.get_root_dot_flow(ctx, conf)
     local t = {}
     insert(t, "digraph structs {\nrankdir=LR;\n")
     local call = ctx.call
@@ -295,7 +301,8 @@ function _M.print_root_dot_flow(ctx, conf)
     end
 
     insert(t, "}\n")
-    print(concat(t))
+
+    return concat(t)
 end
 
 function _M.parse_file(ctx, fname)
