@@ -11,6 +11,7 @@ local encode = cjson.encode
 local parse_file = lib.parse_file
 local adjust_ctx = lib.adjust_ctx
 local create_ctx = lib.create_ctx
+local visit_tree = lib.visit_tree
 local print_root_flow = lib.print_root_flow
 local print_root_dot_flow = lib.print_root_dot_flow
 local get_root_dot_flow = lib.get_root_dot_flow
@@ -143,6 +144,7 @@ local function main()
         {'g', 'graph', 'generate call graph file (png format)'},
         {'m', 'main', 'main/entry function', ':'},
         {'h', 'help', 'show this help message'},
+        {'v', 'verbose', 'print more debugging information'},
     }, arg, "luaflow [OPTIONS] luafile\n")
 
     if #arg < 1 then
@@ -155,7 +157,14 @@ local function main()
     if opt.help then
         usage()
         os.exit(0)
-    elseif not arg[opt_idx] then
+    end
+
+    if opt.verbose then
+        print("setting verbose mode")
+        lib.set_verbose()
+    end
+
+    if not arg[opt_idx] then
         print("Missing luafile")
         usage()
         os.exit()
@@ -171,6 +180,8 @@ local function main()
         print(encode(t))
         return
     end
+
+    t = visit_tree(ctx, t)
 
     adjust_ctx(ctx)
 

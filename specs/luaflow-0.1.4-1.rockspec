@@ -1,7 +1,5 @@
--- This file was automatically generated for the LuaDist project.
-
 package = "luaflow"
-version = "0.1.3-1"
+version = "0.1.4-1"
 description = {
    summary = "A tool like GNU cflow but for Lua programming language.",
    detailed = [[
@@ -15,16 +13,10 @@ dependencies = {
    "lua-parser",
    "lua-cjson",
 }
--- LuaDist source
 source = {
-  tag = "0.1.3-1",
-  url = "git://github.com/LuaDist-testing/luaflow.git"
+   url = "git://github.com/calio/luaflow.git",
+   tag = "v0.1.4",
 }
--- Original source
--- source = {
---    url = "git://github.com/calio/luaflow.git",
---    tag = "v0.1.3",
--- }
 build = {
    type = "builtin",
    modules = {
